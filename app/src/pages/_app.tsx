@@ -23,7 +23,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             if (key === 'control') {
               router.push('/');
             } else {
-              router.push('/data');
+              router.push('/analyze');
             }
           }}
         >
@@ -40,10 +40,10 @@ const App = ({ Component, pageProps }: AppProps) => {
             title={
               <div className={styles.tab}>
                 <HistogramOutline fontSize={24} />
-                <p style={{ paddingLeft: '0.3rem' }}>Data</p>
+                <p style={{ paddingLeft: '0.3rem' }}>Analyze</p>
               </div>
             }
-            key='data'
+            key='analyze'
           ></Tabs.Tab>
         </Tabs>
       </div>
