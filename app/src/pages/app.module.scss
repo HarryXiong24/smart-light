@@ -1,6 +1,8 @@
 .home {
   height: 100vh;
   position: relative;
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow: hidden;
   overflow-y: hidden;
 
   .header {
