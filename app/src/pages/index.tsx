@@ -1,31 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { Switch } from 'antd-mobile';
+import { NoticeBar, Switch } from 'antd-mobile';
 import styles from './index.module.scss';
+import { ExclamationTriangleOutline } from 'antd-mobile-icons';
 
 const Control = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const getLightState = async () => {
-    const res = await fetch('/api/control-light', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (res.ok) {
-      const result = await res.json();
-      setIsOpen(result.isOpen);
+    try {
+      const res = await fetch('/api/control-light', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setIsOpen(result.isOpen);
+        setIsError(false);
+      }
+    } catch (error) {
+      setIsError(true);
+      console.log(error);
     }
   };
 
   const handleState = async (checked: boolean) => {
-    await fetch(`/api/handle-state?isOpen=${checked ? 1 : 0}`, {
+    fetch(`/api/handle-state?isOpen=${checked ? 1 : 0}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-    });
-    setIsOpen(checked);
+    })
+      .then((res) => {
+        if (!res.ok) {
+          setIsError(true);
+        } else {
+          setIsOpen(checked);
+          setIsError(false);
+        }
+      })
+      .catch(() => {
+        setIsError(true);
+      });
   };
 
   useEffect(() => {
@@ -34,6 +52,15 @@ const Control = () => {
 
   return (
     <div className={styles.control}>
+      {isError ? (
+        <NoticeBar
+          closeable
+          icon={<ExclamationTriangleOutline />}
+          color='alert'
+          content={'Network Error, failed to get the light state'}
+          onClose={() => setIsError(false)}
+        />
+      ) : null}
       <div className={styles['operation-item']}>
         <p className={styles.title}>Turn on/off the light</p>
         <Switch

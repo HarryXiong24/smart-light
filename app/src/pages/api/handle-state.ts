@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Response = {
   status: number;
+  error?: string;
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
@@ -23,11 +24,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
       const data = await result.json();
       res.status(200).json(data);
     } else {
-      res.status(500).json({ status: 500 });
+      res.status(500).json({ status: 500, error: 'Internal Server Error' });
     }
   }
 
-  res.status(400).json({ status: 400 });
+  res.status(400).json({ status: 400, error: 'Bad Request' });
 };
 
 export default handler;
