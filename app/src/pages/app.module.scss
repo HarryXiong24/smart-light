@@ -1,0 +1,34 @@
+.home {
+  height: 100vh;
+  position: relative;
+  overflow-y: hidden;
+
+  .header {
+    background-color: #a03cf7;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+    }
+  }
+
+  .main {
+    height: 100%;
+    overflow-y: scroll;
+    padding: 1.2rem;
+  }
+
+  .footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    border-top: 0.1rem solid #dfdfdf;
+    padding: 0.5rem;
+  }
+}

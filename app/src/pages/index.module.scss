@@ -1,0 +1,14 @@
+.control {
+  height: 100%;
+  width: 100%;
+  .operation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #333;
+    }
+  }
+}
