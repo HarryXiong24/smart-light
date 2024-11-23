@@ -3,7 +3,6 @@
   position: relative;
   padding-bottom: env(safe-area-inset-bottom);
   overflow: hidden;
-  overflow-y: hidden;
 
   .header {
     position: sticky;
@@ -22,19 +21,17 @@
     }
   }
 
-  .main {
-    height: 100%;
-    overflow-y: scroll;
-    padding: 1.2rem;
+  .tab {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 600;
+    height: 2rem;
   }
 
-  .footer {
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    background-color: white;
-    border-top: 0.1rem solid #dfdfdf;
-    padding-top: 0.5rem;
-    padding-bottom: env(safe-area-inset-bottom);
+  .main {
+    height: 100%;
+    overflow-y: hidden;
+    padding: 1.2rem;
   }
 }
