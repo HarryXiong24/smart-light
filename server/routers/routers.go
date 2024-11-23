@@ -7,6 +7,7 @@ import (
 
 func RegisterRoutes(server *gin.Engine) {
 	// Code for registering routes
-	server.GET("/handle-light", services.HandleLight)
+	server.GET("/handle-status", services.HandleStatus)
+	server.GET("/control-light", services.ControlLight)
 
 }
