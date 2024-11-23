@@ -1,4 +1,3 @@
-import { log } from 'console';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Response = {
