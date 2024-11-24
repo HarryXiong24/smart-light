@@ -32,7 +32,7 @@ const Analyze = () => {
 
   useEffect(() => {
     getTimeUsage(1);
-  });
+  }, []);
 
   return (
     <div className={styles.analyze}>

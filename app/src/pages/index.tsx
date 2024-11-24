@@ -67,7 +67,9 @@ const Control = () => {
       seconds
     ).padStart(2, '0')}`;
 
-    currentTimeUsage !== 0 && setTimeDifference(formattedTime);
+    if (currentTimeUsage !== 0) {
+      setTimeDifference(formattedTime);
+    }
   };
 
   useEffect(() => {
