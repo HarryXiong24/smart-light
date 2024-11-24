@@ -41,12 +41,14 @@ const Control = () => {
           setIsError(false);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setIsError(true);
       });
   };
 
   useEffect(() => {
+    setIsError(false);
     getLightState();
   }, []);
 
@@ -65,7 +67,9 @@ const Control = () => {
         <p className={styles.title}>Turn on/off the light</p>
         <Switch
           checked={isOpen}
-          onChange={handleState}
+          onChange={(checked) => {
+            handleState(checked);
+          }}
           style={{
             '--checked-color': '#a03cf7',
             '--height': '36px',

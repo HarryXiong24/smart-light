@@ -32,8 +32,6 @@ func HandleStatus(c *gin.Context) {
 		ExecTime: time.Now(),
 	}
 
-	fmt.Println(record)
-
 	err = models.InsertRecord(record)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": 1, "error": "could not insert record"})
@@ -42,8 +40,6 @@ func HandleStatus(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": 0, "isOpen": record.IsOpen, "execTime": record.ExecTime})
-
-	// c.JSON(http.StatusOK, gin.H{"status": 0, "isOpen": record.IsOpen, "execTime": record.ExecTime})
 }
 
 func ControlLight(c *gin.Context) {
@@ -56,4 +52,32 @@ func ControlLight(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": 0, "isOpen": record.IsOpen, "execTime": record.ExecTime})
+}
+
+func GetTimeUsage(c *gin.Context) {
+
+	page := c.Query("page")
+
+	if page == "" {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": 1, "error": "could not get parameter"})
+		return
+	}
+
+	pageNumber, err := strconv.Atoi(page)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": 1,
+			"error":  "'age' must be a valid integer",
+		})
+		return
+	}
+
+	results, err := models.QueryLightDuration(pageNumber)
+	if err != nil {
+		fmt.Println("Error:", err)
+		c.JSON(http.StatusOK, gin.H{"status": 0, "data": []models.DailyDuration{}})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": 0, "data": results})
 }

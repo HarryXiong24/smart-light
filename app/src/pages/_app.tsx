@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import { AppOutline, HistogramOutline } from 'antd-mobile-icons';
 import { useRouter } from 'next/navigation';
-import { NavBar, Tabs } from 'antd-mobile';
+import { Footer, NavBar, SpinLoading, Tabs } from 'antd-mobile';
 import styles from './app.module.scss';
 import '@/styles/globals.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
+  const [tab, setTab] = useState('control');
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const pathname = window && window.location.pathname;
+    setTab(pathname === '/analyze' ? 'analyze' : 'control');
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
 
   return (
     <div className={styles.home}>
@@ -18,8 +29,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       </header>
       <div>
         <Tabs
-          defaultActiveKey='control'
+          activeKey={tab}
           onChange={(key: string) => {
+            setTab(key);
             if (key === 'control') {
               router.push('/');
             } else {
@@ -48,8 +60,15 @@ const App = ({ Component, pageProps }: AppProps) => {
         </Tabs>
       </div>
       <main className={styles.main}>
-        <Component {...pageProps} />
+        {loading ? (
+          <SpinLoading color='primary' style={{ marginTop: '10rem', '--size': '48px' }} />
+        ) : (
+          <Component {...pageProps} />
+        )}
       </main>
+      <footer className={styles.footer}>
+        <Footer content='@ 2024-present Smart Light All rights reserved'></Footer>
+      </footer>
     </div>
   );
 };
