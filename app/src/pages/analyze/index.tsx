@@ -4,17 +4,6 @@ import { useEffect, useState } from 'react';
 import ECharts from '@/components/echarts';
 import { LeftOutline, RedoOutline, RightOutline } from 'antd-mobile-icons';
 
-export const options = [
-  {
-    label: 'LineChart',
-    value: '1',
-  },
-  {
-    label: 'BarChart',
-    value: '2',
-  },
-];
-
 interface Data {
   date: string;
   duration: number;
@@ -65,6 +54,7 @@ const Analyze = () => {
             </Space>
           </Button>
           <Button
+            disabled={page === 1}
             size='small'
             style={{ marginRight: 8 }}
             onClick={() => {

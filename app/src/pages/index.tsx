@@ -6,6 +6,8 @@ import { ExclamationTriangleOutline } from 'antd-mobile-icons';
 const Control = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [currentTimeUsage, setCurrentTimeUsage] = useState(0);
+  const [timeDifference, setTimeDifference] = useState('');
 
   const getLightState = async () => {
     try {
@@ -18,6 +20,7 @@ const Control = () => {
       if (res.ok) {
         const result = await res.json();
         setIsOpen(result.isOpen);
+        setCurrentTimeUsage(result.execTime);
         setIsError(false);
       }
     } catch (error) {
@@ -33,11 +36,15 @@ const Control = () => {
         'Content-Type': 'application/json',
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
           setIsError(true);
         } else {
+          const result = await res.json();
           setIsOpen(checked);
+          if (checked === true) {
+            setCurrentTimeUsage(result.execTime);
+          }
           setIsError(false);
         }
       })
@@ -47,10 +54,31 @@ const Control = () => {
       });
   };
 
+  const updateTimeDifference = () => {
+    const now = new Date();
+    const targetTime = new Date(currentTimeUsage);
+    const diff = Math.abs(now.getTime() - targetTime.getTime());
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(
+      seconds
+    ).padStart(2, '0')}`;
+
+    setTimeDifference(formattedTime);
+  };
+
   useEffect(() => {
     setIsError(false);
     getLightState();
   }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(updateTimeDifference, 1000);
+    return () => clearInterval(intervalId);
+  }, [currentTimeUsage]);
 
   return (
     <div className={styles.control}>
@@ -76,6 +104,10 @@ const Control = () => {
             '--width': '60px',
           }}
         />
+      </div>
+      <div className={styles['operation-item']}>
+        <p className={styles.title}>Current usage time</p>
+        <p className={styles.content}>{isOpen ? timeDifference : 'N/A'}</p>
       </div>
     </div>
   );
