@@ -6,8 +6,8 @@ import { ExclamationTriangleOutline } from 'antd-mobile-icons';
 const Control = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [currentTimeUsage, setCurrentTimeUsage] = useState(0);
   const [timeDifference, setTimeDifference] = useState('');
+  const [currentTimeUsage, setCurrentTimeUsage] = useState(0);
 
   const getLightState = async () => {
     try {
@@ -67,7 +67,7 @@ const Control = () => {
       seconds
     ).padStart(2, '0')}`;
 
-    setTimeDifference(formattedTime);
+    currentTimeUsage !== 0 && setTimeDifference(formattedTime);
   };
 
   useEffect(() => {

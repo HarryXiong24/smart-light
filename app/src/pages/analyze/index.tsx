@@ -31,8 +31,8 @@ const Analyze = () => {
   };
 
   useEffect(() => {
-    getTimeUsage(page);
-  }, []);
+    getTimeUsage(1);
+  });
 
   return (
     <div className={styles.analyze}>
