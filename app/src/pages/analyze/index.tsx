@@ -125,6 +125,8 @@ const Analyze = () => {
                 {
                   name: 'min',
                   type: 'value',
+                  max: Math.max(...data.map((item) => Math.floor(item.duration / 60))) + 10,
+                  min: 0,
                 },
               ],
               series: [
@@ -136,7 +138,7 @@ const Analyze = () => {
                   emphasis: {
                     focus: 'series',
                   },
-                  data: data.map((item) => item.duration / 60),
+                  data: data.map((item) => Math.floor(item.duration / 60)),
                 },
               ],
             }}
